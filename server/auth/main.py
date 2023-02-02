@@ -40,18 +40,6 @@ async def login(body: users_db.User):
     return {"access_token": access_token, "token_type": "bearer", "user": user.username}
 
 
-# @app.post("/register")
-# async def register(body: users_db.User()):
-#     check_user = users_db.check_username(username)
-#     if check_user:
-#         raise HTTPException(status_code=400, detail="Username already exist")
-#
-#     users_db.save_users(body.username, body.password)
-#     user = users_db.retrieve_user(body.username, body.password)
-#     access_token = generate_token({'sub': user.username})
-#     return {"Registered": "true", "Message": "Sign Up Successfully", "access_token": access_token, "user": user.username}
-
-
 @app.get("/read_marks")
 async def get_marks(id: str, auth: str = Header(None)):
     if auth is None:

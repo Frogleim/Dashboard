@@ -18,24 +18,6 @@ def db_connect():
     return conn
 
 
-def create_table():
-    connection = db_connect()
-
-    cursor = connection.cursor()
-    create_table_sql = """
-    CREATE TABLE IF NOT EXISTS project_dashboard (
-        id SERIAL PRIMARY KEY,
-        username VARCHAR(255),
-        password VARCHAR(255),
-        mark text
-
-    );
-    """
-    cursor.execute(create_table_sql)
-    connection.commit()
-    connection.close()
-
-
 def check_username(username):
     with db_connect() as conn:
         cursor = conn.cursor()
@@ -78,6 +60,3 @@ def retrieve_user(username: str, password: str):
             return None
         return User(username=user[0], password=user[1])
 
-
-if __name__ == '__main__':
-    add_col()
