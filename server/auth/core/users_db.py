@@ -29,17 +29,6 @@ def check_username(username):
             return True
 
 
-def save_users(username, password):
-    connection = db_connect()
-    curs = connection.cursor()
-    curs.execute("INSERT INTO users (username, password)"
-                 " VALUES (%s, %s)",
-
-                 (username, password))
-    connection.commit()
-    connection.close()
-    print('Saved Successfully')
-
 
 def get_marks(id):
     with db_connect() as conn:
