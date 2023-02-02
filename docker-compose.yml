@@ -1,0 +1,22 @@
+version: '3'
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: your_db_password
+      PASTGRES_DB: fastapi
+  api:
+    build: ./server
+    ports:
+      - "8000:8000"
+    evironment:
+      DATABASE_URI: postgres://postgres:password@db:5432/fastapi
+    depends_on:
+      - db
+    client:
+      build: ./
+      ports:
+        - "3000:3000"
+      depends_on:
+        - api

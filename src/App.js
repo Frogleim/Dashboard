@@ -9,9 +9,6 @@ import ForgotPassword from './components/forgot_password';
 
 function App() {
   const token = localStorage.getItem('access_token');
-
-
-
   if (token) {return (
     <div className="wrapper">
       <BrowserRouter>

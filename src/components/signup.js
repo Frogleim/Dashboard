@@ -1,49 +1,33 @@
 import { Button, TextField } from '@mui/material';
 import React, {useState} from 'react';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 
-async function login(creds) {
-    return fetch(
-        "http://127.0.0.1:5000/login",
-        {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: creds
-        }
-         
-    ).then(data => data.json())
-}
-
-function handleSignUp()  {
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("user");
-    window.location.href = "/signup";
-};
-
-
 export default function Login () {
     const [username, setUsrname] = useState()
     const [password, setPassword] = useState()
-    console.log(username);
-    console.log(password);
     const handleSubmit = async e => {
         e.preventDefault();
-        const response = await login(JSON.stringify({"username": username, "password": password}))
+        const response = await fetch(
+            `http://127.0.0.1:5000/register?username=${username}&password=${password}`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+             
+        )
+        console.log(response["access_token"]);
         if('access_token' in response) {
         localStorage.setItem("access_token", response["access_token"]);
         localStorage.setItem("user", JSON.stringify(response["user"]));
         window.location.href = "/home";
         
     }
-
     }
     return (
         <Box
@@ -87,9 +71,7 @@ export default function Login () {
             label="Re Enter Password"
             type="password"
             autoComplete='password'
-            onChange={(e)=>setPassword(e.target.value)}
             />
-            
             <Button
             type='submit'
             fullWidth
@@ -98,11 +80,8 @@ export default function Login () {
             sx={{mt: 3, mb: 2}}
             >
                 Sign Up
-
                 </Button>
-
                 <Grid container>
-                    
                     <Grid item>
                         <Link href='/login' variant='body2'>
                             {"Have an account? Login"}
@@ -111,7 +90,6 @@ export default function Login () {
                 </Grid>
 
             </Box>
-
         </Box>
     )
 } 

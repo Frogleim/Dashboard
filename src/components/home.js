@@ -7,8 +7,6 @@ import Toolbar from '@mui/material/Toolbar';
 import AppBar from '@mui/material/AppBar';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import axios from 'axios';
-import Login from './login';
 
 function handleClick()  {
     localStorage.removeItem("access_token");
@@ -17,18 +15,15 @@ function handleClick()  {
 };
 
 
-
 export default function  Home()  {
-
-
-  const [exams, setExams] = useState()
-
+  const [exams, setExams] = useState({})
   useEffect(() => {
     async function fetchData(){
         const accessToken = localStorage.getItem('access_token');
         console.log(accessToken);
         const user_id = localStorage.getItem("user")
-        console.log(user_id);
+        console.log(typeof user_id);
+        
 
         const res  = await fetch(
             `http://127.0.0.1:5000/read_marks?id=${user_id}`,
@@ -42,10 +37,10 @@ export default function  Home()  {
 
         )
         const data = await res.json()
-        console.log(data);
+        setExams(data)
     }
     fetchData();
-  })
+  }, [])
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -70,19 +65,15 @@ export default function  Home()  {
           Exam result
         </Typography>
         <Typography variant="h5" component="div">
-          {/* Your score is: {exams.mark[0]} */}
-        </Typography>
-       
-        <Typography variant="body2">
-          <br />
-        </Typography>
-        <Typography variant="body2">
-        You passed 
+          Your score is: {exams.mark} /10
+          {exams.mark >=5? (
+            <p>You passed</p>
+          ) : (
+            <p>You didnt passed</p>
+          )}
         </Typography>
      </CardContent>
-    
     </Card>
     </Box>
-    
   );
 }

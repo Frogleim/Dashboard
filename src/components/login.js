@@ -22,12 +22,6 @@ async function login(creds) {
     ).then(data => data.json())
 }
 
-function handleSignUp()  {
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("user");
-    window.location.href = "/signup";
-};
-
 
 export default function Login () {
     const [username, setUsrname] = useState()
@@ -43,7 +37,6 @@ export default function Login () {
         window.location.href = "/home";
         
     }
-
     }
     return (
         <Box
@@ -87,13 +80,10 @@ export default function Login () {
             type='submit'
             fullWidth
             variant='contained'
-            // onClick={login}
             sx={{mt: 3, mb: 2}}
             >
                 Sign In
-
                 </Button>
-
                 <Grid container>
                     <Grid item xs>
                         <Link href='/forgotpassword' variant='body2'>
